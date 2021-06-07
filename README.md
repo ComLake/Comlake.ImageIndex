@@ -1,9 +1,8 @@
-# Image Index
-## Image Indexing methods for Ulake
+# Image Indexing methods for Ulake
 
 ## Language
 * Java - Main Programming Language
 
-#Feature
+# Feature
 * Image color feature extraction using image color histogram
 * K-mean Clustering methods
