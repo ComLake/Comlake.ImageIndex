@@ -24,7 +24,7 @@ public class Histogram {
         }
     };
     public void main() throws Exception {
-        FileWriter writer = new FileWriter("MyFile2.csv", Charset.forName("UTF8"));
+        FileWriter writer = new FileWriter("MyFile5.csv", Charset.forName("UTF8"));
         if (dir.isDirectory()) { // make sure it's a directory
             for (final File f : dir.listFiles(IMAGE_FILTER)) {
                 int[][][] ch = new int[4][4][4];
@@ -34,11 +34,10 @@ public class Histogram {
                     for (int x = 0; x < img.getWidth(); x++)
                         for (int y = 0; y < img.getHeight(); y++) {
                             int color = img.getRGB(x, y);
-                            int alpha = (color & 0xff000000) >> 24;
                             int red = (color & 0x00ff0000) >> 16;
                             int green = (color & 0x0000ff00) >> 8;
                             int blue = color & 0x000000ff;
-                            ch[red][green][blue]++;
+                            ch[red/64][green/64][blue/64]++;
                         }
                     for (int i = 0; i < ch.length; i++) {
                         for (int j = 0; j < ch[i].length; j++) {

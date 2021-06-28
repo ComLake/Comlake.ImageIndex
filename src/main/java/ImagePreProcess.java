@@ -2,10 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.nio.charset.Charset;
 
 public class ImagePreProcess {
     final File dir = new File("C:\\Users\\Thong\\Downloads\\ImageIndex\\pokemon\\");
@@ -27,17 +24,17 @@ public class ImagePreProcess {
         if (dir.isDirectory()) { // make sure it's a directory
             for (final File f : dir.listFiles(IMAGE_FILTER)) {
                 BufferedImage image = ImageIO.read(f);
-                BufferedImage resized = resize(image, 400, 400);
+                BufferedImage resized = resize(image, 200, 200);
                 File output = new File(f + ".png");
                 ImageIO.write(resized, "png", output);
             }
         }
     }
     private BufferedImage resize (BufferedImage img,int height, int width){
-        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image images = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = resized.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
+        g2d.drawImage(images, 0, 0, null);
         g2d.dispose();
         return resized;
     }
