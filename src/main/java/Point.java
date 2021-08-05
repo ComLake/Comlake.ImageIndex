@@ -5,10 +5,7 @@ import java.util.Vector;
 public class Point {
     private Vector<Double> a = new Vector<Double>();
 
-<<<<<<< HEAD
-=======
 
->>>>>>> f3252e3cd63f222d338747fd3cc80a51cccd6722
     private double x = 0;
     private double y = 0;
     private double z = 0;
@@ -48,6 +45,10 @@ public class Point {
 
     public double getY() {
         return this.y;
+    }
+
+    public void printpoint(){
+        System.out.println();
     }
 
 }

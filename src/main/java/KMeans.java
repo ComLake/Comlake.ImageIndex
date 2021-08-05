@@ -12,10 +12,10 @@ public class KMeans {
 
     static Vector<Point> Points = new Vector<Point>();
     static List<Vector<Point>> Clusters = new ArrayList<Vector<Point>>();
-    private static int K = 4;
+    private static int K = 12;
 
     public static final void Readdata() throws IOException {
-        String filePath = "C:\\Users\\Thong\\Downloads\\ImageIndex\\MyFile.csv";
+        String filePath = "C:\\Users\\Thong\\Downloads\\ImageIndex\\Histogram.csv";
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 new FileInputStream(filePath)));
         for (String line = br.readLine(); line != null; line = br.readLine()) {
@@ -29,7 +29,6 @@ public class KMeans {
             Point points = new Point();
             points.setA(snew);
             Points.add(points);
-
         }
         br.close();
     }
@@ -48,7 +47,7 @@ public class KMeans {
         Double distant = Double.MAX_VALUE;
         FileWriter output = null;
         try {
-            output = new FileWriter("C:\\Users\\Thong\\Downloads\\ImageIndex\\Clusters.csv", Charset.forName("UTF8"));
+            output = new FileWriter("C:\\Users\\Thong\\Downloads\\ImageIndex\\Clusters1.csv", Charset.forName("UTF8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,19 +56,23 @@ public class KMeans {
             Point points = new Point();
             Vector<Double> sumA = new Vector<Double>();
             Double NumberofPoints = Double.valueOf(newClusters.size());
-            for (int j = 0; j < NumberofPoints; j++) {
-                Point p = newClusters.get(j);
-                Vector<Double> p1 = p.getA();
-                for (int k = 0; k < p1.size(); k++) {
-                    sumA.add(((p1.get(k))/NumberofPoints));
-                }
+            Point temppoint = newClusters.get(0);
+            int Nd = temppoint.getA().size();
+            System.out.println(Nd);
+            for (int k = 0; k < Nd; k++) {
+                double x = 0.0;
+                for (int j = 0; j < NumberofPoints; j++) {
+                    Point p = newClusters.get(j);
+                    Vector<Double> p1 = p.getA();
+                    x += p1.get(k);
+                } x = x/NumberofPoints;
+                sumA.add(x);
             }
             points.setA(sumA);
             Double dist = Euclidean(newClusters.get(0), points);
             if (dist < distant) {
                 distant = dist;
             }
-            System.out.println(newClusters.size());
             Clusters.get(i).clear();
             Clusters.get(i).add(points);
             try {
@@ -87,7 +90,7 @@ public class KMeans {
     }
 
     public static void Clustering () {
-        int Numberofiteration = 13;
+        int Numberofiteration = 50;
         FileWriter output = null;
         try {
             output = new FileWriter("C:\\Users\\Thong\\Downloads\\ImageIndex\\Points and Clusters.csv", Charset.forName("UTF8"));
@@ -106,32 +109,33 @@ public class KMeans {
                     if (distant < dist) {
                         dist = distant;
                         index = k;
-                    }
-                }
-                if (iteration == Numberofiteration-1) {
-                    try {
-                        output.write(p.getA() + ",Cluster:" + index + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Clusters.get(index).add(p);
-            }
-        }
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        CalculateCentroid();
-    }
 
-    public static void FirstIteration () {
+                    }
+                }
+                    if (iteration == Numberofiteration - 1) {
+                        try {
+                            output.write(p.getA() + ",Cluster:" + index + "\n");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Clusters.get(index).add(p);
+                    }
+                }
+            try {
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CalculateCentroid();
+        }
+
+    private static void FirstIteration () {
         for (int k = 0; k < K; k++) {
             Vector<Point> newClusters = new Vector<Point>();
             Point p = new Point();
             Random rand = new Random();
-            p = Points.get(rand.nextInt(743));
+            p = Points.get(rand.nextInt(Points.size()));
             newClusters.add(p);
             Clusters.add(newClusters);
 
@@ -140,7 +144,6 @@ public class KMeans {
             Point p = new Point();
             p = Points.get(i);
             int index = -1;
-
             double dist = Double.MAX_VALUE;
             for (int k = 0; k < K; k++) {
                 Point centre = Clusters.get(k).get(0);

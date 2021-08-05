@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //Histogram Hist = new Histogram();
         //Hist.main();
+        //Hist.name();
         //ImagePreProcess PreProcess = new ImagePreProcess();
         //PreProcess.main();
         KMeans kmean = new KMeans();
